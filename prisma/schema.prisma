@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Transfer {
+  txhash       String        @id
+  from         String
+  to           String
+  amount       Int
+  tokenAddress String
+  token        TokenMetaData @relation(fields: [tokenAddress], references: [address])
+}
+
+model TokenMetaData {
+  address  String     @id
+  name     String?
+  symbol   String?
+  decimals Int?
+  type     String
+  Transfer Transfer[]
+}
